@@ -97,6 +97,16 @@ describe("TargetService.createNotificationRequest", () => {
         validateNotification(notification, "display", "mbox");
     });
 
+    it("returns a request with mbox events of type display if eventType === display", () => {
+        const request = targetService.createNotificationRequest(["mbox"], "display", {});
+
+        validateNotificationRequest(request, {});
+        expect(request.request.notifications).toHaveLength(1);
+
+        const notification = request.request.notifications[0];
+        validateNotification(notification, "display", "mbox");
+    });
+
     it("returns a request with mbox events of type click if eventType === click", () => {
         const request = targetService.createNotificationRequest(["mbox"], "click", {});
 
