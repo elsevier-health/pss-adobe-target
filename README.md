@@ -165,12 +165,67 @@ const PssAdobeTarget = require("@pss/pss-adobe-target");
 const pssAdobeTargetService = PssAdobeTarget.Service(config.adobeTargetConfig, PssLogger);
 ```
 
-Then use the middleware on routes defined in the product.
+Then use the middleware on routes defined in the product. Any route using one of these middleware functions will need to have activity or mbox query parameters sent with the route.
 
 ```javascript
-
+    app.get("/test/target/activity",
+        targetService.getActivitiesMiddleware,
+        (req, res, next) => {
+            const activities = req.getTargetActivities();
+            const searchEndpoint = activities["statdx-hsearch"];
+            
+            let features = req.session.features;
+            features["statdx-hsearch"] = searchEndpoint;
+            
+            req.session.save(() => {
+                
+                if (features["statdx-hsearch"].variation === "contol") {
+                    // show the control experience
+                } else if (features["statdx-hsearch"].variation === "variation") {
+                    // show the variation experience
+                } else {
+                    // show the default experience
+                }
+                
+                ... // code continues
+            });
+        });
 
 
 ```
 
 ### In code
+
+The Service exports functions that can be used in nodejs code to interact with adobe target
+
+```javascript
+
+const targetService = PssAdobeTarget.Service(adobeTargetConfig, PssLogger);
+
+const renderSomePage = (req, res, next) => {
+    
+    ...
+    
+    targetService.getActivities(["show-some-feature"])
+        .then(response => {
+            logger.trace("Get activity response = ");
+            logger.trace(response);
+            
+            const showSomeFeature = response["show-some-feature"];
+            req.session.features["show-some-feature"] = showSomeFeature;
+            
+            req.session.save(() => {
+                res.render("/some/page", {
+                    showVariation: req.session.features["show-some-feature"].variation === "variation"
+                });    
+            });
+            
+        })
+        .catch(error => {
+            logger.error("Failed to get activities");
+            logger.error(error);
+            res.render("/error/page");
+        });
+};
+
+```
