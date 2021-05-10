@@ -82,7 +82,6 @@ describe("TargetService.createNotificationRequest", () => {
 
     it("returns a notification request if an array of mboxes, an eventType, and a targetCookie", () => {
         const request = targetService.createNotificationRequest([], "", {});
-        console.log(request);
 
         validateNotificationRequest(request, {});
         expect(request.request.notifications).toHaveLength(0);
