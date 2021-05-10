@@ -40,7 +40,7 @@ For more information about the Adobe Target SDK configuration see this website: 
 | --------- | -------- | ---- | --------------- | ------ | ----------- |
 | client | yes | string | vault_adobe_target_client | yes | The Adobe Target client code. This value will be replaced with a secret from vault. |
 | organizationId | yes | string | vault_adobe_target_org_id | yes | The Adobe Tartet IMS Id. The value will be replaced with a secret from vault | 
-| propertyToken | no | string | vault_adobe_target_property | yes | The Adobe Target environment property. The value will be replaced with a secret from vault. | 
+| propertyToken | yes | string | vault_adobe_target_property | yes | The Adobe Target environment property. The value will be replaced with a secret from vault. | 
 | decisioningMethod | no | string | on-device, server-side, or hybrid | no | Determines the decisioning method to use | 
 | events | no | object | see below | no | An optional object with event name keys and callback function values |
 | timeout | no | number | Timeout in milleseconds | no | The timeout value for all requests to Adobe Target. | 
