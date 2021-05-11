@@ -1,6 +1,8 @@
 # pss-adobe-target
 
-This module is a wrapper around the pss implementation of Adobe Target.
+This module is a wrapper around the Adobe Target Node SDK. The module exports two constructors for use by products. One creates an express router with routes defined to get Adobe Target activities and to send notifications to Adobe Target. The other contructor creates a service that can be used to get activities or send notifications in a couple of ways, with middleware or calling  functions directly.
+
+![Alt text](./assets/img/pss-adobe-target.svg)
 
 ## Installation
 
@@ -14,7 +16,7 @@ Both the pss-adobe-target Router and Service expect the follow configuration at 
 
 ```javascript
 const pssAdobeTargetRouter = PssAdobeTarget.Router(adobeTargetConfig, PssLogger);
-const pssAdobeTargetRouter = PssAdobeTarget.Service(adobeTargetConfig, PssLogger);
+const pssAdobeTargetService = PssAdobeTarget.Service(adobeTargetConfig, PssLogger);
 ```
 
 ### pss-adobe-target configuration
@@ -50,6 +52,7 @@ For more information about the Adobe Target SDK configuration see this website: 
 These event functions will be defined either in code before initializing pss-adobe-target or in the configuration file. For more information about the Adobe Target SDK events see this website: https://adobetarget-sdks.gitbook.io/docs/sdk-reference-guides/nodejs-sdk/sdk-events.
 
 | attribute | required | type | description |
+| --------- | -------- | ---- | ----------- |
 | clientReady | no | function | Emitted when the artifact has downloaded and the SDK is ready for getOffers calls. Recommended when using on-device decisioning method. |
 | artifactDownloadSucceeded | no | function | Emitted each time a new artifact is downloaded. |
 | artifactDownloadFailed | no | function | Emitted each time an artifact fails to download. |
@@ -58,11 +61,15 @@ These event functions will be defined either in code before initializing pss-ado
 
 This is an initialized PssLogger that will be passed into both the Router and Service.
 
+```javascript
+const PssLogger = require("@pss/pss-logger")(config.loggingConfig);
+```
+
 ## Exports
 
-pss-adobe-target exports to constructors on for a Router and one for a service.
+pss-adobe-target exports to constructors for a Router and for a Service.
 
-### Router
+### Routes
 
 The pss-adobe-target Router sets up two routes for use in client-side ajax requests.
 
@@ -100,6 +107,8 @@ app.use(pssAdobeTargetRouter);
 #### GET /target/activity
 From client-side javascript send ajax requests to fetch which experience the current user is in and the offer delivered by the experience.
 
+The ```/target/activity``` route expects one or more ```activity=some-mbox-here``` query parameter.
+
 ```javascript
 const activityName = "statdx-hsearch";
 
@@ -127,6 +136,8 @@ Here is a sample response for the ```/target/activity?activity=statdx-hsearch```
 #### PUT /target/notification
 
 From client-side javascript send ajax requests to trigger events for currently running server-side activities.
+
+The ```/target/notification``` route expects one or more ```mbox=some-mbox-here``` query parameter.
 
 ```javascript
 const mbox = "mbox server-side-success";
@@ -165,7 +176,11 @@ const PssAdobeTarget = require("@pss/pss-adobe-target");
 const pssAdobeTargetService = PssAdobeTarget.Service(config.adobeTargetConfig, PssLogger);
 ```
 
-Then use the middleware on routes defined in the product. Any route using one of these middleware functions will need to have activity or mbox query parameters sent with the route.
+Then use the middleware on routes defined in the product. 
+
+The ```getActivitiesMiddleware``` expects one or more ```activity=activity-box``` query paramenter.
+
+The ```sendNotificationMiddleware``` expects one or more ```mbox=mbox-name``` query paramenter.
 
 ```javascript
     app.get("/test/target/activity",
@@ -192,6 +207,16 @@ Then use the middleware on routes defined in the product. Any route using one of
         });
 
 
+    app.get("/test/target/notification",
+        targetService.sendNotificationMiddleware,
+        (req, res, next) => {
+            const activities = req.getTargetActivities();
+            
+            const notificationResponse = req.getTargetNotificationResponse();
+            if (notificationResponse.status !== 200) {
+                // Do something if the notification failed to send
+            }
+        });
 ```
 
 ### In code
