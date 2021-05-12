@@ -36,7 +36,7 @@ const pssAdobeTargetService = PssAdobeTarget.Service(adobeTargetConfig, PssLogge
 }
 ```
 
-For more information about the Adobe Target SDK configuration see this website: https://adobetarget-sdks.gitbook.io/docs/sdk-reference-guides/nodejs-sdk/initialize-sdk.
+For more information about the Adobe Target SDK configuration see this website: <https://adobetarget-sdks.gitbook.io/docs/sdk-reference-guides/nodejs-sdk/initialize-sdk>.
 
 | attribute | required | type | expected value | secret | description |
 | --------- | -------- | ---- | --------------- | ------ | ----------- |
@@ -49,7 +49,7 @@ For more information about the Adobe Target SDK configuration see this website: 
 
 ### Events
 
-These event functions will be defined either in code before initializing pss-adobe-target or in the configuration file. For more information about the Adobe Target SDK events see this website: https://adobetarget-sdks.gitbook.io/docs/sdk-reference-guides/nodejs-sdk/sdk-events.
+These event functions will be defined either in code before initializing pss-adobe-target or in the configuration file. For more information about the Adobe Target SDK events see this website: <https://adobetarget-sdks.gitbook.io/docs/sdk-reference-guides/nodejs-sdk/sdk-events>.
 
 | attribute | required | type | description |
 | --------- | -------- | ---- | ----------- |
