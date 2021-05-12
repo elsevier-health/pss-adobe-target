@@ -67,7 +67,7 @@ const PssLogger = require("@pss/pss-logger")(config.loggingConfig);
 
 ## Exports
 
-pss-adobe-target exports to constructors for a Router and for a Service.
+pss-adobe-target exports two constructors, one for an express Router and one for a Service.
 
 ### Routes
 
