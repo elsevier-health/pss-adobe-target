@@ -75,11 +75,11 @@ The pss-adobe-target Router sets up two routes for use in client-side ajax reque
 
 GET /target/activity?activity={activity mbox}&activity={activity mbox}
 
-This route will fetch one or more experience the current user is in as well as the offer delivered by those experiences.
+This route fetches one or more experience the current user is in as well as the offer delivered by those experiences. The route expects one or more activity query parameters. The activity parameter is the main mbox of the adobe target activity defined when creating the activity in Adobe Target.
 
 PUT /target/notification?mbox={mbox name}&mbox={mbox name}
 
-This route will send notifications to adobe target for one or more mboxes.
+This route will send notifications to adobe target for one or more mboxes. The route expects one or more mbox query parameters. The mboxes correspond to the metrics setup when creating the activity in Adobe Target. This is how we will collect success metrics for server-side activities.
 
 ## Usage
 
