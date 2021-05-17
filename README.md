@@ -178,13 +178,13 @@ const pssAdobeTargetService = PssAdobeTarget.Service(config.adobeTargetConfig, P
 
 Then use the middleware on routes defined in the product. 
 
-The ```getActivitiesMiddleware``` expects one or more ```activity=activity-box``` query paramenter.
+The ```Middleware.getActivities``` expects one or more ```activity=activity-box``` query paramenter.
 
-The ```sendNotificationMiddleware``` expects one or more ```mbox=mbox-name``` query paramenter.
+The ```Middleware.sendNotification``` expects one or more ```mbox=mbox-name``` query paramenter.
 
 ```javascript
     app.get("/test/target/activity",
-        targetService.getActivitiesMiddleware,
+        targetService.Middleware.getActivities,
         (req, res, next) => {
             const activities = req.getTargetActivities();
             const searchEndpoint = activities["statdx-hsearch"];
@@ -208,7 +208,7 @@ The ```sendNotificationMiddleware``` expects one or more ```mbox=mbox-name``` qu
 
 
     app.get("/test/target/notification",
-        targetService.sendNotificationMiddleware,
+        targetService.Middleware.sendNotification,
         (req, res, next) => {
             const activities = req.getTargetActivities();
             
