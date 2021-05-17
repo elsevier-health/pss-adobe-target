@@ -8,8 +8,8 @@
     "url": "git+https://github.com/elsevierPTG/pss-target.git"
   },
   "scripts": {
-    "test": "mocha",
-    "prepublishOnly": "mocha"
+    "test": "jest",
+    "prepublishOnly": "jest"
   },
   "author": "Elsevier",
   "license": "SEE LICENSE IN LICENSE.md",
