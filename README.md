@@ -36,6 +36,7 @@ const pssAdobeTargetService = PssAdobeTarget.Service(adobeTargetConfig, PssLogge
 }
 ```
 
+
 For more information about the Adobe Target SDK configuration see this website: <https://adobetarget-sdks.gitbook.io/docs/sdk-reference-guides/nodejs-sdk/initialize-sdk>.
 
 | attribute | required | type | expected value | secret | description |
@@ -56,6 +57,7 @@ These event functions will be defined either in code before initializing pss-ado
 | `clientReady` | no | function | Emitted when the artifact has downloaded and the SDK is ready for getOffers calls. Recommended when using on-device decisioning method. |
 | `artifactDownloadSucceeded` | no | function | Emitted each time a new artifact is downloaded. |
 | `artifactDownloadFailed` | no | function | Emitted each time an artifact fails to download. |
+
 
 ### PssLogger
 
@@ -80,6 +82,7 @@ This route fetches one or more experience the current user is in as well as the 
 PUT /target/notification?mbox=mbox1&mbox=mbox2
 
 This route will send notifications to adobe target for one or more mboxes. The route expects one or more mbox query parameters. The mboxes correspond to the metrics setup when creating the activity in Adobe Target. This is how we will collect success metrics for server-side activities.
+
 
 ## Usage
 
@@ -108,6 +111,7 @@ app.use(pssAdobeTargetRouter);
 From client-side javascript send ajax requests to fetch which experience the current user is in and the offer delivered by the experience.
 
 The ```/target/activity``` route expects one or more ```activity=some-mbox-here``` query parameter.
+
 
 ```javascript
 const activityName = "statdx-hsearch";
@@ -254,3 +258,4 @@ const renderSomePage = (req, res, next) => {
 };
 
 ```
+
