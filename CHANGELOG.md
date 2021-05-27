@@ -7,6 +7,6 @@ This component adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased - X.Y.Z] - YYYY-MM-DD
 
-## [Unreleased - 1.0.0] - 2021-05-10
+## [1.0.0] - 2021-05-27
 ### Added
 - Initial implementation -- see README.md
