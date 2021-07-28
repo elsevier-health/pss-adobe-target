@@ -235,7 +235,12 @@ const renderSomePage = (req, res, next) => {
     
     ...
     
-    targetService.getActivities(["show-some-feature"])
+    const userId = req.session.userId;
+    const sessionId = req.session.authToken;
+    const targetCookie = req.cookies.targetCookie ? req.cookies.targetCookie : null;
+    const activities = ["show-some-feature"];
+    
+    targetService.getActivities(activities, userId, sessionId, targetCookie)
         .then(response => {
             logger.trace("Get activity response = ");
             logger.trace(response);
@@ -254,6 +259,30 @@ const renderSomePage = (req, res, next) => {
             logger.error("Failed to get activities");
             logger.error(error);
             res.render("/error/page");
+        });
+};
+
+const sendSomeNotification = (req, res, next) => {
+
+...
+
+    const userId = req.session.userId;
+    const sessionId = req.session.authToken;
+    const targetCookie = req.cookies.targetCookie ? req.cookies.targetCookie : null;
+    const mboxes = req.query.mbox || ["some-mbox", "another-mbox"];
+    const eventType = req.query.eventType;
+
+    targetService.sendNotification(mboxes, eventType, userId, sessionId, targetCookie)
+        .then(response => {
+            logger.trace("Send notification response = ");
+            logger.trace(response);
+
+            ...
+
+        })
+        .catch(error => {
+            logger.error("Failed to get activities");
+            logger.error(error);
         });
 };
 
