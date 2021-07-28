@@ -7,6 +7,12 @@ This component adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased - X.Y.Z] - YYYY-MM-DD
 
+## [1.1.0] - 2021-05-27
+### Changed
+- fixed bugs with creating adobe target API request objects.
+- added sessionId and thirdPartyId to requests to adobe target.
+
+
 ## [1.0.0] - 2021-05-27
 ### Added
 - Initial implementation -- see README.md
