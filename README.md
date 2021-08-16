@@ -245,7 +245,10 @@ const renderSomePage = (req, res, next) => {
             logger.trace("Get activity response = ");
             logger.trace(response);
             
-            const showSomeFeature = response["show-some-feature"];
+            const mboxes = response.response.execute.mboxes;
+            logger.trace("mboxes = ", util.inspect(mboxes));
+            
+            const showSomeFeature = mboxes["show-some-feature"];
             req.session.features["show-some-feature"] = showSomeFeature;
             
             req.session.save(() => {
