@@ -7,6 +7,14 @@ This component adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased - X.Y.Z] - YYYY-MM-DD
 
+## [Unreleased - 1.1.0] - 2022-03-18
+### Added
+- TargetService.getExperienceFromTargetResponse
+- Linting
+
+### Changed
+- Update documentation for getActivity
+
 ## [Unreleased - 1.0.0] - 2021-05-10
 ### Added
 - Initial implementation -- see README.md

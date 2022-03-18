@@ -39,7 +39,8 @@ const getTargetService = (targetConfig) => {
     });
 
     const targetService = TargetService(targetConfig, PssLogger);
-    return targetService
+
+    return targetService;
 };
 
 const validateNotificationRequest = (request, userId, notifications) => {
@@ -764,5 +765,82 @@ describe("TargetService.createTargetOptions", () => {
         const targetOptions = targetService.createTargetOptions(request, targetCookie, sessionId);
 
         validateTargetOptions(targetOptions, request, targetCookie, sessionId);
+    });
+});
+
+const responseResponse = {
+    response: {
+        execute: {
+            mboxes: [{
+                name: "someMbox",
+                options: [{
+                    content: {
+                        experience: "variation"
+                    }
+                }]
+            }]
+        }
+    }
+};
+
+const response = responseResponse.response;
+
+describe("TargetService.getExperienceFromTargetResponse", () => {
+    const error = jest.fn();
+    const trace = jest.fn();
+    const debug = jest.fn();
+
+    const mockPssLogger = {
+        Logger: (category) => {
+            return {
+                debug: debug,
+                error: error,
+                trace: trace
+            };
+        }
+    };
+
+    const targetService = TargetService(targetConfig, mockPssLogger);
+
+    const validateExperience = (res, mbox, expectedExperience) => {
+        const experience = targetService.getExperienceFromTargetResponse(res, mbox);
+        expect(experience).toBe(expectedExperience);
+    };
+
+    describe("returns undefined if invalid arguments passed in", () => {
+
+        it("invalid response", () => {
+            validateExperience(undefined, "mbox", undefined);
+            validateExperience(null, "mbox", undefined);
+            validateExperience(123, "mbox", undefined);
+            validateExperience(true, "mbox", undefined);
+            validateExperience(false, "mbox", undefined);
+            validateExperience([], "mbox", undefined);
+            validateExperience("response", "mbox", undefined);
+        });
+
+        test("response object isn't in the expected form", () => {
+            let response = {}
+            validateExperience(response, "someMbox", undefined);
+
+            response.execute = {};
+            validateExperience(response, "someMbox", undefined);
+
+            response.execute.mboxes = "";
+            validateExperience(response, "someMbox", undefined);
+            response.execute.mboxes = {};
+            validateExperience(response, "someMbox", undefined);
+            response.execute.mboxes = true;
+            validateExperience(response, "someMbox", undefined);
+            response.execute.mboxes = false;
+            validateExperience(response, "someMbox", undefined);
+            response.execute.mboxes = 1234;
+            validateExperience(response, "someMbox", undefined);
+        });
+
+        test("handles target.response or target.response.response", async () => {
+            validateExperience(responseResponse, "someMbox", "variation");
+            validateExperience(response, "someMbox", "variation");
+        });
     });
 });

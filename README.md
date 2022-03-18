@@ -123,17 +123,11 @@ $.ajax("/target/activity?activity=" + activityName).done(function(response) {
 });
 ```
 
-The response will be an object with a key of each activity requested with the value of the offers defined for the requested activities. The best practice should be to define the offer as a feature flag object that will be overrided based on which experience the user is currently in.
+The response will be an object with a key of each activity requested with the value of the offers defined for the requested activities.
 Here is a sample response for the ```/target/activity?activity=statdx-hsearch``` route
 ```json
 {
-  "statdx-hsearch": {
-    "active": true,
-    "variation": "control",
-    "payload": {
-      "searchIndex": 0
-    }
-  }
+  "experience": "control"
 }
 ```
 
@@ -193,21 +187,16 @@ The ```Middleware.sendNotification``` expects one or more ```mbox=mbox-name``` q
             const activities = req.getTargetActivities();
             const searchEndpoint = activities["statdx-hsearch"];
             
-            let features = req.session.features;
-            features["statdx-hsearch"] = searchEndpoint;
+            if (searchEndpoint.experience === "control") {
+                // show the control experience
+            }
+            if (searchEndpoint.experience === "variation") {
+                // show the variation experience
+            }
+            else {
+                // show the default experience
+            }
             
-            req.session.save(() => {
-                
-                if (features["statdx-hsearch"].variation === "contol") {
-                    // show the control experience
-                } else if (features["statdx-hsearch"].variation === "variation") {
-                    // show the variation experience
-                } else {
-                    // show the default experience
-                }
-                
-                ... // code continues
-            });
         });
 
 
@@ -244,17 +233,23 @@ const renderSomePage = (req, res, next) => {
         .then(response => {
             logger.trace("Get activity response = ");
             logger.trace(response);
+
+            const experience = targetService.getExperienceFromTargetResponse(response, "show-some-feature");
             
-            const mboxes = response.response.execute.mboxes;
-            logger.trace("mboxes = ", util.inspect(mboxes));
-            
-            const showSomeFeature = mboxes["show-some-feature"];
-            req.session.features["show-some-feature"] = showSomeFeature;
-            
-            req.session.save(() => {
-                res.render("/some/page", {
-                    showVariation: req.session.features["show-some-feature"].variation === "variation"
-                });    
+            let showNewFeature;
+            if (experience === "control") {
+                showNewFeature = false;
+            }
+            else if (experience === "variation") {
+                showNewFeature = true;
+            }
+            else {
+                showNewFeature = req.session.features["show-some-feature"].active;
+                logger.error(`Failed to get activity experience for "${activities}"`);
+            }
+
+            res.render("/some/page", {
+                showVariation: showNewFeature
             });
             
         })
