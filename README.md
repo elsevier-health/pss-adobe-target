@@ -123,7 +123,9 @@ $.ajax("/target/activity?activity=" + activityName).done(function(response) {
 });
 ```
 
-The response will be an object with a key of each activity requested with the value of the offers defined for the requested activities.
+The response will be an object with a key of `experience` and a value of the experience group the user is in. This object
+is setup in Adobe Target activity
+
 Here is a sample response for the ```/target/activity?activity=statdx-hsearch``` route
 ```json
 {
