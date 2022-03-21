@@ -7,6 +7,14 @@ This component adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased - X.Y.Z] - YYYY-MM-DD
 
+## [Unreleased - 1.2.0] - 2022-03-18
+### Added
+- TargetService.getExperienceFromTargetResponse
+- Linting
+
+### Changed
+- Update documentation for getActivity
+
 ## [1.1.0] - 2021-05-27
 ### Changed
 - fixed bugs with creating adobe target API request objects.
