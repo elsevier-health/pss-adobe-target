@@ -1,10 +1,25 @@
-//
-// requires node16
-//
-const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];
-if (NODE_MAJOR_VERSION < 16) {
-    throw new Error('Requires Node 16 (or higher)');
-}
+/*
+    Script used to simulate requests to Adobe Target to determine Activity experience for users.
+    Accepts the following input parameters:
+     - [activityMbox] string - name of the AT activity mbox
+     - [existingUsersFile] file - path to a file containing experience results for users
+     - [userCount] number - number of users to include in test
+     - [attemptsPerUser] number - number of attempts per user to do
+     - [checkAllExistingUsers] boolean - whether to check all existing users regardless of 'userCount'
+    Each of these params has a defined default value. 
+
+    The contents of the `existingUsersFile` is as follows:
+     - a json array of `UserResult` objects (see `./resources/example-user-results.json`)
+     - may also be a non-existant or empty file
+
+     `UserResult`
+       - userId: <userId>
+       - sessionId: <sessionId>
+       - inExperiment: true|false - whether the user was in the experiment previously
+       - experience: undefined|"CONTROL"|"VARIATION" - optional value of the experiment the user was in previously
+       - oldExperience": optional array of previous `experience` values (may be undefined) - history of `experience` values 
+*/ 
+
 
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config/";
 
@@ -51,8 +66,8 @@ logger.debug("config: " + util.inspect(config));
 const args = parseArgs(process.argv.slice(2), {
     default: {
         activityMbox: "test-statdx-search-results-page",
-        userCount: 6,
-        existingUsersFile: "/Users/pedrozaf/dev/elsevier/pss-adobe-target/test/resources/users-2022-04-01-15-01-30--6-2022-04-01-15-17-42--1000.json",//"./resources/xusers.json",
+        userCount: 10,
+        existingUsersFile: "resources/users.json",
         checkAllExistingUsers: false,
         attemptsPerUser: 5,
     },
@@ -63,13 +78,14 @@ const args = parseArgs(process.argv.slice(2), {
 
 if (args.help) {
     console.log(
+        `\n Usage: ${path.basename(__filename)}` +
         `\n  [activityMbox] string - name of the AT activity mbox - default(${args.activityMbox})` +
         `\n  [existingUsersFile] file - path to a file containing experience results for users - default(${args.existingUsersFile})` +
         `\n  [userCount] number - number of users to include in test - default(${args.userCount})` +
         `\n  [attemptsPerUser] number - number of attempts per user to do - default(${args.attemptsPerUser})`,
         `\n  [checkAllExistingUsers] boolean - whether to check all existing users regardless of 'userCount' - default(${args.checkAllExistingUsers})\n`
     );
-    return;
+    process.exit();
 }
 
 logger.debug("args: " + util.inspect(args));
@@ -94,26 +110,6 @@ const userResults = [];
 
 const limit = args.checkAllExistingUsers ? Math.max(existingUsers.length, args.userCount) : args.userCount;
 logger.info(`Getting experience for ${limit} users`);
-
-// var promise = new Promise(function(resolve, reject) {
-//     // do a thing, possibly async, then…
-//
-//     if (/* everything turned out fine */) {
-//         resolve("Stuff worked!");
-//     }
-//     else {
-//         reject(Error("It broke"));
-//     }
-// });
-//
-// promise.then(function(result) {
-//     console.log(result); // "Stuff worked!"
-// }, function(err) {
-//     console.log(err); // Error: "It broke"
-// });
-//
-// Promise.all()
-
 
 (async () => {
     for (let i = 1; i <= limit; i++) {
