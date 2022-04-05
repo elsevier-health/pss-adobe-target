@@ -1,0 +1,45 @@
+[
+    {
+        "userId": "2a8a5f07-b7df-4647-9480-0c4f24a40743",
+        "sessionId": "2a8a5f07-b7df-4647-9480-0c4f24a40743",
+        "inExperiment": true,
+        "experience": "VARIATION",
+        "oldExperience": [
+            null
+        ]
+    },
+    {
+        "userId": "6d9f5a9b-77de-4497-af88-7caa11e49cf5",
+        "sessionId": "6d9f5a9b-77de-4497-af88-7caa11e49cf5",
+        "inExperiment": true,
+        "experience": "VARIATION",
+        "oldExperience": [
+            null
+        ]
+    },
+    {
+        "userId": "4c15e337-c872-4661-bc02-3abaaf56e700",
+        "sessionId": "4c15e337-c872-4661-bc02-3abaaf56e700",
+        "inExperiment": true,
+        "experience": "CONTROL",
+        "oldExperience": [
+            null
+        ]
+    },
+    {
+        "userId": "12bc5d3f-0c0e-47ea-95db-6bef947bda2e",
+        "sessionId": "12bc5d3f-0c0e-47ea-95db-6bef947bda2e",
+        "inExperiment": false
+    },
+    {
+        "userId": "093a7460-85c7-449f-b9a1-ce42bf4f9e59",
+        "sessionId": "093a7460-85c7-449f-b9a1-ce42bf4f9e59",
+        "inExperiment": true,
+        "experience": "CONTROL"
+    },
+    {
+        "userId": "a4064c80-7e70-45d6-a0e2-c927dc9f52d9",
+        "sessionId": "a4064c80-7e70-45d6-a0e2-c927dc9f52d9",
+        "inExperiment": false
+    }
+]

@@ -10,6 +10,7 @@
   "scripts": {
     "lint": "eslint lib/",
     "prepare": "npm run lint && npm run test",
+    "testActivityAudience": "node test/activity-audience-tester.js",
     "test": "jest"
   },
   "author": "Elsevier",
@@ -24,7 +25,11 @@
   },
   "devDependencies": {
     "@pss/pss-logger": "^1.0.1",
+    "config": "^3.3.7",
+    "dayjs": "^1.11.0",
     "eslint": "^8.11.0",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "log4js": "^6.4.4",
+    "minimist": "^1.2.6"
   }
 }
