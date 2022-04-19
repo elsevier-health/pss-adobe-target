@@ -7,7 +7,11 @@ This component adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased - X.Y.Z] - YYYY-MM-DD
 
-## [Unreleased - 1.2.0] - 2022-03-18
+## [1.2.1] - 2022-04-19
+### Changed
+- Use userId as sessionId for all middleware, routes, and service methods
+
+## [1.2.0] - 2022-03-18
 ### Added
 - TargetService.getExperienceFromTargetResponse
 - Linting
